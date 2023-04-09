@@ -5,6 +5,7 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express')
 const app = express()
 const path = require('path')
+const axios = require('axios')
 const mongoose = require('mongoose')
 
 mongoose.connect('mongodb://127.0.0.1:27017/uvindex');
@@ -16,6 +17,7 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
+
     res.render('main/main')
 })
 
