@@ -9,3 +9,10 @@
 // function onError(error) {
 //     console.log(error)
 // }
+
+const searchBar = document.querySelector('#searchBar')
+const searchResults = document.querySelector('.search-results')
+
+searchBar.addEventListener('input', function () {
+    searchResults.classList.add('search-results-input')
+})
