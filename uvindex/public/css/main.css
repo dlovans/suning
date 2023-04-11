@@ -14,8 +14,13 @@
         overflow-x: hidden;
     }
 
+    .no-scroll {
+        overflow-y: hidden;
+    }
+
     .navbar {
         display: flex;
+        position: relative;
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -32,7 +37,8 @@
         height: 50px;
         background-color: #FFFFFF;
         position: fixed;
-        margin-top: -60px;
+        top: 0;
+        left: 0;
         z-index: 2;
         border-bottom: 2px solid rgba(0, 0, 0, 0.065);
     }
@@ -54,19 +60,76 @@
         width: 50px;
         height: 50px;
         margin-right: 5px;
+        z-index: 4;
     }
 
     .line {
         border: 2px solid #76FF03;
-        width: 35px;
+        width: 40px;
+        transition: all 0.5s;
     }
 
     .line1 {
         margin-bottom: 6px;
+        transform-origin: left center;
+    }
+
+    .line1-effect {
+        transform: rotate(40deg);
+        margin-bottom: 12px;
     }
 
     .line2 {
         margin-bottom: 6px;
+        transform-origin: center;
+        transition: all 5s;
+    }
+
+    .line2-effect {
+        transform: rotate(360deg);
+        /* transform: scale(0); */
+    }
+
+    .line3 {
+        transform-origin: left center;
+    }
+
+    .line3-effect {
+        transform: rotate(-40deg);
+    }
+
+    .mobile-menu {
+        position: absolute;
+        transform: translateX(100%);
+        background-color: #FFFFFF;
+        width: 100%;
+        height: 100vh;
+        top: 0;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: all 0.5s;
+    }
+
+    .mobile-menu-true {
+        transform: translateX(0);
+    }
+
+    .nav-button {
+        height: 50px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nav-button:active {
+        background-color: #76FF03;
+    }
+
+    .ultraviolet {
+        margin-top: 100px;
     }
 
     .search-bar-container {
@@ -132,16 +195,13 @@
         background-color: #76FF03;
     }
 
-    .mobile-menu {
-        transform: translateX(-100%);
-    }
+
 
     .ad-one {
         height: 150px;
         width: 95%;
         border: 2px solid rgba(0, 0, 0, 0.1);
-        margin-top: -20px;
-        margin-bottom: 10px;
+        margin: 10px 0;
     }
 
     .ad-two {
