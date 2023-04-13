@@ -40,6 +40,9 @@ hamburger.addEventListener('click', function () {
     } else {
         menuStatus = false
         mobileMenu.classList.remove('mobile-menu-true')
+        lineOne.classList.remove('line1-effect')
+        lineTwo.classList.remove('line2-effect')
+        lineThree.classList.remove('line3-effect')
         document.body.classList.remove('no-scroll')
     }
 })

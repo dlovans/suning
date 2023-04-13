@@ -12,6 +12,7 @@
         position: relative;
         z-index: -3;
         overflow-x: hidden;
+        background-color: #1E1E1E;
     }
 
     .no-scroll {
@@ -25,7 +26,7 @@
         justify-content: center;
         align-items: center;
         width: 100%;
-        background-color: #FFFFFF;
+        background-color: #1E1E1E;
     }
 
     .menu {
@@ -35,12 +36,11 @@
         align-items: center;
         width: 100%;
         height: 50px;
-        background-color: #FFFFFF;
         position: fixed;
         top: 0;
         left: 0;
         z-index: 2;
-        border-bottom: 2px solid rgba(0, 0, 0, 0.065);
+        background-color: #232323;
     }
 
     .logo {
@@ -50,58 +50,53 @@
         width: 50px;
         height: 50px;
         margin-left: 5px;
+        color: #B0B0B0;
     }
 
     .hamburger-menu {
         display: flex;
+        background-color: #74ff0367;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        width: 50px;
-        height: 50px;
+        border-radius: 6px;
+        width: 45px;
+        height: 45px;
         margin-right: 5px;
         z-index: 4;
     }
 
     .line {
-        border: 2px solid #76FF03;
+        background-color: #76FF03;
         width: 40px;
-        transition: all 0.5s;
+        margin-bottom: 6px;
+        height: 3px;
+        transition: all 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
     }
 
     .line1 {
-        margin-bottom: 6px;
-        transform-origin: left center;
+        margin-top: 6px;
     }
+
 
     .line1-effect {
-        transform: rotate(40deg);
-        margin-bottom: 12px;
+        transform: translateY(9px) rotate(45deg);
     }
 
-    .line2 {
-        margin-bottom: 6px;
-        transform-origin: center;
-        transition: all 5s;
-    }
 
     .line2-effect {
-        transform: rotate(360deg);
-        /* transform: scale(0); */
+        opacity: 0;
     }
 
-    .line3 {
-        transform-origin: left center;
-    }
 
     .line3-effect {
-        transform: rotate(-40deg);
+        transform: translateY(-9px) rotate(-45deg);
     }
 
     .mobile-menu {
         position: absolute;
         transform: translateX(100%);
-        background-color: #FFFFFF;
+        background-color: #2C2C2C;
         width: 100%;
         height: 100vh;
         top: 0;
@@ -110,6 +105,10 @@
         flex-direction: column;
         align-items: center;
         transition: all 0.5s;
+    }
+
+    .mobile-menu * {
+        color: #76FF03;
     }
 
     .mobile-menu-true {
@@ -138,7 +137,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        background-color: #FFFFFF;
+        background-color: #1E1E1E;
         margin-top: 58px;
     }
 
@@ -151,7 +150,8 @@
         border-radius: 5px;
         outline: none;
         margin: 10px 0 1px 0;
-        background-color: #FFFFFF;
+        background-color: #2C2C2C;
+        color: #F5F5F5;
     }
 
     .search-results {
@@ -163,6 +163,7 @@
         transform: translateY(-150%);
         transition: all 1s ease;
         z-index: -1;
+        background-color: #2C2C2C;
     }
 
     .search-results-input {
@@ -176,8 +177,8 @@
         justify-content: center;
         align-items: flex-start;
         height: 50px;
-        background-color: rgb(241, 241, 241);
-        transition: background-color 0.3s;
+        color: #B0B0B0;
+        background-color: #2C2C2C;
         padding: 0 10%;
     }
 
@@ -222,13 +223,11 @@
     }
 
     .data-container {
-        /* padding: 10px; */
         width: 95%;
-        border: 2px solid #74ff035b;
         display: grid;
         grid-template-columns: repeat(6, 1fr);
         grid-template-rows: 50px 100px 50px 100px 100px;
-        border-radius: 10px;
+        border-radius: 6px;
         box-shadow: 0 0 10px #00000067;
         grid-template-areas:
             "city city city city city city"
@@ -250,8 +249,8 @@
         background-color: #76FF03;
         width: 100%;
         height: 100%;
-        border-top-right-radius: 10px;
-        border-top-left-radius: 10px;
+        border-top-right-radius: 6px;
+        border-top-left-radius: 6px;
     }
 
     .uvi-container {
@@ -323,7 +322,7 @@
         justify-content: center;
         align-items: center;
         background-color: #A7724A;
-        border-bottom-left-radius: 10px;
+        border-bottom-left-radius: 6px;
     }
 
     .dark-brown-container {
@@ -342,7 +341,7 @@
         justify-content: center;
         align-items: center;
         background-color: #3D2C22;
-        border-bottom-right-radius: 10px;
+        border-bottom-right-radius: 6px;
     }
 
 }
