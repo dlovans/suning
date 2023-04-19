@@ -16,8 +16,21 @@ const searchBar = document.querySelector('#searchBar')
 const searchResults = document.querySelector('.search-results')
 
 searchBar.addEventListener('input', function () {
+    let searchBarData = document.querySelector('#searchBar')
+    let data = {
+        location: `${searchBarData.value}`
+    }
+    axios.post('/geocoder', data)
+        .then(response => {
+            console.log(response.data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
     searchResults.classList.add('search-results-input')
 })
+
+
 
 
 // Mobile menu
