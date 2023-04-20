@@ -15,19 +15,32 @@
 const searchBar = document.querySelector('#searchBar')
 const searchResults = document.querySelector('.search-results')
 
+let consecutiveTimeout;
+
 searchBar.addEventListener('input', function () {
-    let searchBarData = document.querySelector('#searchBar')
-    let data = {
-        location: `${searchBarData.value}`
-    }
-    axios.post('/geocoder', data)
-        .then(response => {
-            console.log(response.data)
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    searchResults.classList.add('search-results-input')
+    clearTimeout(consecutiveTimeout)
+    consecutiveTimeout = setTimeout(() => {
+        let searchBarData = document.querySelector('#searchBar')
+        let data = {
+            location: `${searchBarData.value}`
+        }
+        axios.post('/geocoder', data)
+            .then(response => {
+                console.log(response.data)
+                for (let location of response.data) {
+                    let newItem = document.createElement('li')
+                    newItem.textContent = `${location.name}, ${location.country}`
+                    searchResults.appendChild(newItem)
+                    console.log(searchResults.children[0].textContent)
+                }
+
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        searchResults.classList.add('search-results-input')
+    }, 2000)
+
 })
 
 
