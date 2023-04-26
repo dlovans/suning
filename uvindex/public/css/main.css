@@ -368,6 +368,14 @@
         margin-right: 10px;
     }
 
+    .general-weather {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
     .ch-loc-container {
         grid-area: btn;
         display: flex;

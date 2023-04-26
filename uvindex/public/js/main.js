@@ -39,7 +39,7 @@ searchBar.addEventListener('input', function () {
                 console.log(err)
             })
         searchResults.classList.add('search-results-input')
-    }, 2000)
+    }, 400)
 
 })
 
