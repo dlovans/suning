@@ -227,9 +227,9 @@
     .data-container {
         width: 95%;
         display: grid;
-        background-color: #2e3642;
+        background-color: #252c34;
         grid-template-columns: repeat(6, 1fr);
-        grid-template-rows: 50px 90px 100px 40px 50px 50px 50px;
+        grid-template-rows: 45px 80px 170px 50px 40px 50px 50px;
         border-radius: 6px;
         box-shadow: 0 0 10px #00000067;
         grid-template-areas:
@@ -278,7 +278,7 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        background-color: #252c34;
+        background-color: #2e3642;
         color: #FFFFFF;
         width: 95%;
         padding: 10px 0 5px 0;
@@ -307,7 +307,7 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        background-color: #252c34;
+        background-color: #2e3642;
         color: #FFFFFF;
         width: 95%;
         padding: 5px 0 10px 0;
@@ -335,6 +335,8 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        background-color: transparent;
+        margin-top: 10px;
     }
 
     .temperature {
@@ -343,8 +345,9 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        height: 50px;
-        background-color: #252c34;
+        padding: 10px 0;
+        margin-bottom: 5px;
+        background-color: #2e3642;
         border-radius: 10px;
         color: #FFFFFF;
     }
@@ -373,7 +376,76 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        width: 95%;
+        background-color: #2e3642;
+        border-radius: 10px;
+        margin-top: 10px;
+    }
+
+    .prec {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
         width: 100%;
+        padding: 10px 0 5px 0;
+        color: #FFFFFF;
+    }
+
+    .prec-text {
+        font-weight: 700;
+        margin-left: 10px;
+        width: 80%;
+    }
+
+    .prec-percent {
+        margin-right: 10px;
+        text-align: center;
+        width: 20%;
+    }
+
+    .wind {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 5px 0 5px 0;
+        color: #FFFFFF;
+    }
+
+    .wind-text {
+        font-weight: 700;
+        margin-left: 10px;
+        width: 80%;
+    }
+
+    .wind-speed {
+        width: 20%;
+        text-align: center;
+        margin-right: 10px;
+    }
+
+    .humidity {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 5px 0 10px 0;
+        color: #FFFFFF;
+    }
+
+    .humidity-text {
+        width: 80%;
+        font-weight: 700;
+        margin-left: 10px;
+    }
+
+    .humidity-percent {
+        width: 20%;
+        text-align: center;
+        margin-right: 10px;
     }
 
     .ch-loc-container {
@@ -382,6 +454,7 @@
         justify-content: center;
         align-items: center;
         width: 100%;
+        margin-top: 10px;
     }
 
     .search-active {

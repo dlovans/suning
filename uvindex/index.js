@@ -1,13 +1,20 @@
-if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config()
-}
-
 const express = require('express')
 const app = express()
 const path = require('path')
 const axios = require('axios')
 const mongoose = require('mongoose')
-const { timeStamp } = require('console')
+const session = require('express-session')
+
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config()
+    app.use(session({
+        secret: process.env.SECRET_KEY,
+        resave: false,
+        saveUninitialized: false
+    }))
+}
+
+
 
 mongoose.connect('mongodb://127.0.0.1:27017/uvindex');
 
@@ -23,7 +30,8 @@ app.get('/', (req, res) => {
 })
 
 app.post('/geocoder', async (req, res) => {
-    await axios.get(`http://api.openweathermap.org/geo/1.0/direct?q=${req.body.location}&limit=5&appid=14dda02ffdd1a1f7d9268e84d18133dc`)
+    console.log(req.body.location)
+    await axios.get(`http://dataservice.accuweather.com//locations/v1/search?apikey=${process.env.accuWeatherAPI_KEY}&q=${req.body.location}&offset=25`)
         .then(response => {
             res.json(response.data)
         })

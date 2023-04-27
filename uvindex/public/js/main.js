@@ -21,25 +21,32 @@ searchBar.addEventListener('input', function () {
     clearTimeout(consecutiveTimeout)
     consecutiveTimeout = setTimeout(() => {
         let searchBarData = document.querySelector('#searchBar')
-        let data = {
-            location: `${searchBarData.value}`
+        if (searchBarData.value) {
+            let data = {
+                location: `${searchBarData.value}`
+            }
+            console.log(data)
+            axios.post('/geocoder', data)
+                .then(response => {
+                    console.log(response.data)
+                    for (let location of response.data) {
+                        let newItem = document.createElement('li')
+                        newItem.textContent = `${location.LocalizedName}, ${location.AdministrativeArea.LocalizedName}, ${location.Country.ID}`
+                        searchResults.appendChild(newItem)
+                        console.log(searchResults.children[0].textContent)
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+            searchResults.classList.add('search-results-input')
+        } else {
+            searchResults.classList.remove('search-results-input')
+            setTimeout(function () {
+                Array.from(searchResults.children).forEach(child => child.remove())
+            }, 500)
         }
-        axios.post('/geocoder', data)
-            .then(response => {
-                console.log(response.data)
-                for (let location of response.data) {
-                    let newItem = document.createElement('li')
-                    newItem.textContent = `${location.name}, ${location.country}`
-                    searchResults.appendChild(newItem)
-                    console.log(searchResults.children[0].textContent)
-                }
-
-            })
-            .catch(err => {
-                console.log(err)
-            })
-        searchResults.classList.add('search-results-input')
-    }, 400)
+    }, 500)
 
 })
 
