@@ -9,21 +9,21 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config()
 }
 
-    app.use(session({
-        secret: process.env.SECRET_KEY,
-        resave: false,
-        saveUninitialized: false
-    }))
+
 
 mongoose.connect('mongodb://127.0.0.1:27017/uvindex');
 
 app.set('view engine', 'ejs')
-app.set('public', path.join(__dirname, 'public'))
+app.set('views', path.join(__dirname, 'views'))
 
 app.use(express.static('public'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
+app.use(session({
+    secret: process.env.SECRET_KEY,
+    resave: false,
+    saveUninitialized: false
+}))
 app.get('/', (req, res) => {
     res.render('main/main')
 })
