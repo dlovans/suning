@@ -11,7 +11,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/uvindex');
+// mongoose.connect('mongodb://127.0.0.1:27017/uvindex');
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
