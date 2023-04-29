@@ -7,14 +7,13 @@ const session = require('express-session')
 
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config()
+}
+
     app.use(session({
         secret: process.env.SECRET_KEY,
         resave: false,
         saveUninitialized: false
     }))
-}
-
-
 
 mongoose.connect('mongodb://127.0.0.1:27017/uvindex');
 
