@@ -459,14 +459,43 @@
 
     .search-active {
         width: 80%;
+        position: relative;
         color: #FFFFFF;
-        background: linear-gradient(to right top, #76ff03, #00EA5B, #00D08D);
+        background: #76FF03;
         height: 30px;
         border-radius: 10px;
         border: none;
         font-size: 14px;
+        overflow: hidden;
     }
 
+    .glass {
+        position: absolute;
+        width: 0px;
+        height: 0px;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+    }
+
+    .glass-animation {
+        animation: glassEffect 0.5s 1;
+        background-color: #FFFFFF;
+
+    }
+
+    @keyframes glassEffect {
+        0% {
+            width: 0px;
+            height: 0px;
+            opacity: 0.5;
+        }
+
+        100% {
+            width: 400px;
+            height: 400px;
+            opacity: 0;
+        }
+    }
 
     .sunbathing-container {
         grid-area: stc;

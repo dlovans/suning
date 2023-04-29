@@ -79,3 +79,19 @@ hamburger.addEventListener('click', function () {
         document.body.classList.remove('no-scroll')
     }
 })
+
+// Button glass effect
+const locationBtn = document.querySelector('.search-active')
+const glassEffect = document.querySelector('.glass')
+
+locationBtn.addEventListener('click', function (event) {
+    let left = event.clientX - event.target.getBoundingClientRect().left
+    let top = event.clientY - event.target.getBoundingClientRect().top
+    console.log(left, top)
+    glassEffect.style.left = `${left}px`
+    glassEffect.style.top = `${top}px`
+    glassEffect.classList.add('glass-animation')
+    // setTimeout(() => {
+    //     glassEffect.classList.remove('glass-animation')
+    // }, 400)
+})
