@@ -29,12 +29,26 @@ searchBar.addEventListener('input', function () {
             axios.post('/geocoder', data)
                 .then(response => {
                     console.log(response.data)
-                    for (let location of response.data) {
-                        let newItem = document.createElement('li')
-                        newItem.textContent = `${location.LocalizedName}, ${location.AdministrativeArea.LocalizedName}, ${location.Country.ID}`
-                        searchResults.appendChild(newItem)
-                        console.log(searchResults.children[0].textContent)
+                    function updateResults(results) {
+                        let listItem;
+                        if (results.length !== 0) {
+                            for (let i = 0; i < results.length; i++) {
+                                if (searchBar.children[i]) {
+                                    listItem = searchBar.children[i]
+                                } else {
+                                    listItem = document.createElement('li')
+                                    searchResults.appendChild(listItem)
+                                }
+                                listItem.textContent = `${results[i].LocalizedName}, ${results[i].AdministrativeArea.LocalizedName}, ${results[i].Country.ID}`
+                            }
+                        } else {
+                            searchResults.classList.remove('search-results-input')
+                            setTimeout(function () {
+                                Array.from(searchResults.children).forEach(child => child.remove())
+                            }, 500)
+                        }
                     }
+                    updateResults(response.data)
                 })
                 .catch(err => {
                     console.log(err)
@@ -85,12 +99,17 @@ const locationBtn = document.querySelector('.search-active')
 const glassEffect = document.querySelector('.glass')
 
 locationBtn.addEventListener('click', function (event) {
+    let ripple = document.createElement('span')
     let left = event.clientX - event.target.getBoundingClientRect().left
     let top = event.clientY - event.target.getBoundingClientRect().top
     console.log(left, top)
-    glassEffect.style.left = `${left}px`
-    glassEffect.style.top = `${top}px`
-    glassEffect.classList.add('glass-animation')
+    ripple.style.left = `${left}px`
+    ripple.style.top = `${top}px`
+    ripple.classList.add('glass')
+    locationBtn.appendChild(ripple)
+    setTimeout(() => {
+        ripple.remove()
+    }, 500)
     // setTimeout(() => {
     //     glassEffect.classList.remove('glass-animation')
     // }, 400)

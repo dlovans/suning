@@ -475,12 +475,8 @@
         height: 0px;
         transform: translate(-50%, -50%);
         border-radius: 50%;
-    }
-
-    .glass-animation {
-        animation: glassEffect 0.5s 1;
+        animation: glassEffect 0.5s linear infinite;
         background-color: #FFFFFF;
-
     }
 
     @keyframes glassEffect {
