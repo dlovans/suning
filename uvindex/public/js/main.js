@@ -25,27 +25,25 @@ searchBar.addEventListener('input', function () {
             let data = {
                 location: `${searchBarData.value}`
             }
-            console.log(data)
             axios.post('/geocoder', data)
                 .then(response => {
-                    console.log(response.data)
                     function updateResults(results) {
                         let listItem;
                         if (results.length !== 0) {
+                            if (searchResults.children) {
+                                Array.from(searchResults.children).forEach(child => child.remove())
+                            }
                             for (let i = 0; i < results.length; i++) {
-                                if (searchBar.children[i]) {
-                                    listItem = searchBar.children[i]
-                                } else {
-                                    listItem = document.createElement('li')
-                                    searchResults.appendChild(listItem)
-                                }
+                                listItem = document.createElement('li')
+                                searchResults.appendChild(listItem)
                                 listItem.textContent = `${results[i].LocalizedName}, ${results[i].AdministrativeArea.LocalizedName}, ${results[i].Country.ID}`
                             }
+                            searchResults.classList.add('search-results-input')
                         } else {
                             searchResults.classList.remove('search-results-input')
                             setTimeout(function () {
                                 Array.from(searchResults.children).forEach(child => child.remove())
-                            }, 500)
+                            }, 400)
                         }
                     }
                     updateResults(response.data)
