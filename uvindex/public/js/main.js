@@ -93,15 +93,15 @@ hamburger.addEventListener('click', function () {
     }
 })
 
-// Button glass effect
+// Button glass effect and scroll behavior
 const locationBtn = document.querySelector('.search-active')
 const glassEffect = document.querySelector('.glass')
+const searchBarContainer = document.querySelector('.search-bar-container')
 
 locationBtn.addEventListener('click', function (event) {
     let ripple = document.createElement('span')
     let left = event.clientX - event.target.getBoundingClientRect().left
     let top = event.clientY - event.target.getBoundingClientRect().top
-    console.log(left, top)
     ripple.style.left = `${left}px`
     ripple.style.top = `${top}px`
     ripple.classList.add('glass')
@@ -109,7 +109,14 @@ locationBtn.addEventListener('click', function (event) {
     setTimeout(() => {
         ripple.remove()
     }, 500)
-    // setTimeout(() => {
-    //     glassEffect.classList.remove('glass-animation')
-    // }, 400)
+    let offset = searchBarContainer.getBoundingClientRect().top
+    setTimeout(() => {
+        window.scrollTo({
+            top: offset,
+            left: 0,
+            behavior: "smooth"
+        })
+        searchBar.focus()
+    }, 300)
+
 })

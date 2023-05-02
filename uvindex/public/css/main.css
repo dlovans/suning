@@ -4,6 +4,7 @@
     margin: 0;
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
+    scroll-behavior: smooth;
 }
 
 @media screen and (max-width:280px) {
@@ -14,6 +15,7 @@
         overflow-x: hidden;
         background-color: #1E1E1E;
         height: auto;
+        width: 100vw;
     }
 
     .no-scroll {
@@ -53,6 +55,11 @@
         height: 50px;
         margin-left: 10px;
         color: #B0B0B0;
+    }
+
+    .sun-logo {
+        width: 40px;
+        height: 40px;
     }
 
     .hamburger-menu {
@@ -157,6 +164,7 @@
         color: #F5F5F5;
     }
 
+
     .search-results {
         display: hidden;
         position: absolute;
@@ -202,18 +210,11 @@
 
 
     .ad-one {
-        height: 150px;
-        width: 95%;
-        border: 2px solid rgba(0, 0, 0, 0.1);
         margin: 10px 0;
     }
 
     .ad-two {
-        height: 150px;
-        width: 95%;
-        border: 2px solid rgba(0, 0, 0, 0.1);
-        margin-top: 10px;
-        margin-bottom: 10px;
+        margin-top: 10px 0;
     }
 
     main {
@@ -230,13 +231,12 @@
         display: grid;
         background-color: #252c34;
         grid-template-columns: repeat(6, 1fr);
-        grid-template-rows: 45px 80px 170px 50px 40px 50px 50px;
+        grid-template-rows: 45px 260px 50px 40px 50px 50px;
         border-radius: 6px;
         box-shadow: 0 0 10px #00000067;
         grid-template-areas:
             "city city city city city city"
-            "suninfo suninfo suninfo suninfo suninfo suninfo"
-            "temp temp temp temp temp temp"
+            "data data data data data data"
             "btn btn btn btn btn btn"
             "stc stc stc stc stc stc"
             "vfair vfair fair fair med med"
@@ -259,13 +259,20 @@
         color: #FFFFFF;
     }
 
+    .general-data {
+        grid-area: data;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
     .city-name {
         font-size: 20px;
         font-weight: 800;
     }
 
     .suninfo {
-        grid-area: suninfo;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -347,7 +354,6 @@
         justify-content: space-between;
         align-items: center;
         padding: 10px 0;
-        margin-bottom: 5px;
         background-color: #2e3642;
         border-radius: 10px;
         color: #FFFFFF;
@@ -364,6 +370,15 @@
     .icon {
         width: 50%;
         text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .sun1-image {
+        height: 35px;
+        width: 35px;
+        filter: brightness(0) invert(1);
     }
 
     .temp-number {
@@ -569,6 +584,8 @@
         z-index: -3;
         overflow-x: hidden;
         background-color: #1E1E1E;
+        height: auto;
+        width: 100vw;
     }
 
     .no-scroll {
@@ -757,18 +774,11 @@
 
 
     .ad-one {
-        height: 150px;
-        width: 95%;
-        border: 2px solid rgba(0, 0, 0, 0.1);
         margin: 10px 0;
     }
 
     .ad-two {
-        height: 150px;
-        width: 95%;
-        border: 2px solid rgba(0, 0, 0, 0.1);
-        margin-top: 10px;
-        margin-bottom: 10px;
+        margin-top: 10px 0;
     }
 
     main {
@@ -785,13 +795,12 @@
         display: grid;
         background-color: #252c34;
         grid-template-columns: repeat(6, 1fr);
-        grid-template-rows: 45px 80px 170px 50px 40px 50px 50px;
+        grid-template-rows: 45px 260px 50px 40px 50px 50px;
         border-radius: 6px;
         box-shadow: 0 0 10px #00000067;
         grid-template-areas:
             "city city city city city city"
-            "suninfo suninfo suninfo suninfo suninfo suninfo"
-            "temp temp temp temp temp temp"
+            "data data data data data data"
             "btn btn btn btn btn btn"
             "stc stc stc stc stc stc"
             "vfair vfair fair fair med med"
@@ -819,8 +828,15 @@
         font-weight: 800;
     }
 
+    .general-data {
+        grid-area: data;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
     .suninfo {
-        grid-area: suninfo;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -902,7 +918,6 @@
         justify-content: space-between;
         align-items: center;
         padding: 10px 0;
-        margin-bottom: 5px;
         background-color: #2e3642;
         border-radius: 10px;
         color: #FFFFFF;
@@ -919,6 +934,15 @@
     .icon {
         width: 50%;
         text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .sun1-image {
+        height: 35px;
+        width: 35px;
+        filter: brightness(0) invert(1);
     }
 
     .temp-number {
