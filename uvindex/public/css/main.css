@@ -13,6 +13,7 @@
         z-index: -3;
         overflow-x: hidden;
         background-color: #1E1E1E;
+        height: auto;
     }
 
     .no-scroll {
@@ -356,7 +357,562 @@
         font-size: 18px;
         font-weight: 700;
         width: 30%;
+        text-align: left;
+        margin-left: 10px;
+    }
+
+    .icon {
+        width: 50%;
         text-align: center;
+    }
+
+    .temp-number {
+        width: 20%;
+        text-align: center;
+        margin-right: 10px;
+    }
+
+    .general-weather {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 95%;
+        background-color: #2e3642;
+        border-radius: 10px;
+        margin-top: 10px;
+    }
+
+    .prec {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 10px 0 5px 0;
+        color: #FFFFFF;
+    }
+
+    .prec-text {
+        font-weight: 700;
+        margin-left: 10px;
+        width: 80%;
+    }
+
+    .prec-percent {
+        margin-right: 10px;
+        text-align: center;
+        width: 20%;
+    }
+
+    .wind {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 5px 0 5px 0;
+        color: #FFFFFF;
+    }
+
+    .wind-text {
+        font-weight: 700;
+        margin-left: 10px;
+        width: 80%;
+    }
+
+    .wind-speed {
+        width: 20%;
+        text-align: center;
+        margin-right: 10px;
+    }
+
+    .humidity {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 5px 0 10px 0;
+        color: #FFFFFF;
+    }
+
+    .humidity-text {
+        width: 80%;
+        font-weight: 700;
+        margin-left: 10px;
+    }
+
+    .humidity-percent {
+        width: 20%;
+        text-align: center;
+        margin-right: 10px;
+    }
+
+    .ch-loc-container {
+        grid-area: btn;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .search-active {
+        width: 80%;
+        position: relative;
+        color: #FFFFFF;
+        background: #76FF03;
+        height: 30px;
+        border-radius: 10px;
+        border: none;
+        font-size: 14px;
+        overflow: hidden;
+    }
+
+    .glass {
+        position: absolute;
+        width: 0px;
+        height: 0px;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        animation: glassEffect 0.5s linear infinite;
+        background-color: #FFFFFF;
+    }
+
+    @keyframes glassEffect {
+        0% {
+            width: 0px;
+            height: 0px;
+            opacity: 0.5;
+        }
+
+        100% {
+            width: 400px;
+            height: 400px;
+            opacity: 0;
+        }
+    }
+
+    .sunbathing-container {
+        grid-area: stc;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+        color: #FFFFFF;
+    }
+
+    .very-fair-container {
+        grid-area: vfair;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #F1E2DC;
+    }
+
+    .fair-container {
+        grid-area: fair;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #E5C6A9;
+    }
+
+    .medium-container {
+        grid-area: med;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #C9A686;
+    }
+
+    .light-brown-container {
+        grid-area: lbrown;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #A7724A;
+        border-bottom-left-radius: 6px;
+    }
+
+    .dark-brown-container {
+        grid-area: dbrown;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #724832;
+    }
+
+    .black-container {
+        grid-area: pblack;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #3D2C22;
+        border-bottom-right-radius: 6px;
+    }
+
+}
+
+@media screen and (min-width:281px) {
+
+    body {
+        position: relative;
+        z-index: -3;
+        overflow-x: hidden;
+        background-color: #1E1E1E;
+    }
+
+    .no-scroll {
+        overflow-y: hidden;
+    }
+
+
+    .navbar {
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        background-color: #1E1E1E;
+    }
+
+    .menu {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        height: 50px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        background-color: #232323;
+    }
+
+    .logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+        margin-left: 10px;
+        color: #B0B0B0;
+    }
+
+    .hamburger-menu {
+        display: flex;
+        background-color: #74ff0367;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        width: 45px;
+        height: 35px;
+        margin-right: 10px;
+        z-index: 4;
+    }
+
+    .line {
+        background-color: #76FF03;
+        width: 35px;
+        margin-bottom: 6px;
+        height: 3px;
+        transition: all 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
+
+    .line1 {
+        margin-top: 6px;
+    }
+
+
+    .line1-effect {
+        transform: translateY(9px) rotate(45deg);
+    }
+
+
+    .line2-effect {
+        opacity: 0;
+    }
+
+
+    .line3-effect {
+        transform: translateY(-9px) rotate(-45deg);
+    }
+
+    .mobile-menu {
+        position: absolute;
+        transform: translateX(100%);
+        background-color: #2C2C2C;
+        display: flex;
+        width: 100%;
+        height: 100vh;
+        top: 0;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: all 0.5s;
+    }
+
+    .mobile-menu * {
+        color: #76FF03;
+    }
+
+    .mobile-menu-true {
+        transform: translateX(0);
+    }
+
+    .nav-button {
+        height: 50px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nav-button:active {
+        background-color: #76FF03;
+    }
+
+    .ultraviolet {
+        margin-top: 100px;
+    }
+
+    .search-bar-container {
+        width: 100%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #1E1E1E;
+        margin-top: 58px;
+    }
+
+    .search-bar {
+        width: 95%;
+        height: 40px;
+        border: none;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        padding: 0 5px 0 5px;
+        border-radius: 5px;
+        outline: none;
+        margin: 10px 0 1px 0;
+        background-color: #2C2C2C;
+        color: #F5F5F5;
+    }
+
+    .search-results {
+        display: hidden;
+        position: absolute;
+        list-style: none;
+        width: 100%;
+        margin-top: 60px;
+        transform: translateY(-150%);
+        transition: all 1s ease;
+        z-index: -1;
+        background-color: #2C2C2C;
+    }
+
+    .search-results-input {
+        transform: translateY(0);
+    }
+
+    .search-results li {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        height: 50px;
+        color: #B0B0B0;
+        background-color: #2C2C2C;
+        padding: 0 10%;
+    }
+
+    .search-results li::after {
+        content: "";
+        position: absolute;
+        align-self: center;
+        width: 90%;
+        height: 2px;
+        background-color: #76FF03;
+        margin-top: 40px;
+    }
+
+    .search-results li:active {
+        background-color: #76FF03;
+    }
+
+
+
+    .ad-one {
+        height: 150px;
+        width: 95%;
+        border: 2px solid rgba(0, 0, 0, 0.1);
+        margin: 10px 0;
+    }
+
+    .ad-two {
+        height: 150px;
+        width: 95%;
+        border: 2px solid rgba(0, 0, 0, 0.1);
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    main {
+        position: relative;
+        z-index: -2;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .data-container {
+        width: 95%;
+        display: grid;
+        background-color: #252c34;
+        grid-template-columns: repeat(6, 1fr);
+        grid-template-rows: 45px 80px 170px 50px 40px 50px 50px;
+        border-radius: 6px;
+        box-shadow: 0 0 10px #00000067;
+        grid-template-areas:
+            "city city city city city city"
+            "suninfo suninfo suninfo suninfo suninfo suninfo"
+            "temp temp temp temp temp temp"
+            "btn btn btn btn btn btn"
+            "stc stc stc stc stc stc"
+            "vfair vfair fair fair med med"
+            "lbrown lbrown dbrown dbrown pblack pblack"
+        ;
+    }
+
+    .city-container {
+        grid-area: city;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        justify-self: center;
+        align-self: center;
+        background-color: transparent;
+        width: 100%;
+        border-top-right-radius: 6px;
+        border-top-left-radius: 6px;
+        color: #FFFFFF;
+    }
+
+    .city-name {
+        font-size: 20px;
+        font-weight: 800;
+    }
+
+    .suninfo {
+        grid-area: suninfo;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .uvi-container {
+        grid-area: uvi;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #2e3642;
+        color: #FFFFFF;
+        width: 95%;
+        padding: 10px 0 5px 0;
+        box-shadow: 0 0 70px -10px rgba(0, 0, 0, 0.243);
+        border-radius: 10px 10px 0 0;
+    }
+
+    .uvi-box {
+        margin-left: 10px;
+        font-size: 18px;
+        font-weight: 700;
+        width: 80%;
+    }
+
+    .uvi {
+        text-align: center;
+        font-size: 20px;
+        width: 20%;
+        justify-content: flex-start;
+        margin-right: 10px;
+    }
+
+    .vitamin-container {
+        grid-area: vitamin;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #2e3642;
+        color: #FFFFFF;
+        width: 95%;
+        padding: 5px 0 10px 0;
+        border-radius: 0 0 10px 10px;
+    }
+
+    .vitamin-box {
+        font-size: 18px;
+        font-weight: 700;
+        width: 80%;
+        margin-left: 10px;
+    }
+
+    .vitamin-status {
+        text-align: center;
+        width: 20%;
+        justify-content: flex-start;
+        margin-right: 10px;
+    }
+
+    .weather-container {
+        grid-area: temp;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+        margin-top: 10px;
+    }
+
+    .temperature {
+        width: 95%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        margin-bottom: 5px;
+        background-color: #2e3642;
+        border-radius: 10px;
+        color: #FFFFFF;
+    }
+
+    .day {
+        font-size: 18px;
+        font-weight: 700;
+        width: 30%;
+        text-align: left;
         margin-left: 10px;
     }
 

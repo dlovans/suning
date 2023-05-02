@@ -37,6 +37,7 @@ searchBar.addEventListener('input', function () {
                                 listItem = document.createElement('li')
                                 searchResults.appendChild(listItem)
                                 listItem.textContent = `${results[i].LocalizedName}, ${results[i].AdministrativeArea.LocalizedName}, ${results[i].Country.ID}`
+                                listItem.setAttribute('data-locationKey', `${results[i.Key]}`)
                             }
                             searchResults.classList.add('search-results-input')
                         } else {
