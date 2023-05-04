@@ -22,20 +22,63 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }))
+
+const Location = require('./models/locations.js')
+
+
 app.get('/', (req, res) => {
     res.render('main/main')
 })
 
 app.post('/geocoder', async (req, res) => {
-    console.log(req.body.location)
-    await axios.get(`http://dataservice.accuweather.com//locations/v1/search?apikey=${process.env.accuWeatherAPI_KEY}&q=${req.body.location}&offset=25`)
-        .then(response => {
-            res.json(response.data)
-        })
-        .catch(err => {
-            console.log(err)
-        })
-})
+    try {
+        console.log(req.body.location)
+        const caseInsensitiveRegex = new RegExp(req.body.location, "i");
+        let checkDB = await Location.find({ localizedName: caseInsensitiveRegex })
+        console.log(checkDB)
+        let arrayOfLocData = []
+        if (!checkDB) {
+            const response = await axios.get(`http://dataservice.accuweather.com//locations/v1/search?apikey=${process.env.accuWeatherAPI_KEY}&q=${req.body.location}&offset=25`);
+            const databaseInteraction = async function () {
+                for (let locData of response.data) {
+                    let inDatabase = await Location.findOne({ key: locData.Key });
+                    if (!inDatabase) {
+                        const createLocDoc = new Location({
+                            key: locData.Key,
+                            localizedName: locData.LocalizedName,
+                            city: locData.AdministrativeArea.LocalizedName,
+                            country: locData.Country.ID
+                        })
+                        await createLocDoc.save()
+                    }
+                    arrayOfLocData.push({
+                        LocalizedName: locData.LocalizedName,
+                        AdministrativeArea: { LocalizedName: locData.AdministrativeArea.LocalizedName },
+                        Key: locData.Key,
+                        Country: { ID: locData.Country.ID }
+                    })
+                }
+            }
+            await databaseInteraction()
+        } else {
+            let databaseToArray = async function () {
+                for (let result of checkDB) {
+                    arrayOfLocData.push({
+                        LocalizedName: result.localizedName,
+                        AdministrativeArea: { LocalizedName: result.city },
+                        Key: result.key,
+                        Country: { ID: result.country }
+                    })
+                }
+            }
+            await databaseToArray()
+        }
+        res.json(arrayOfLocData)
+    } catch (err) {
+        console.log(err)
+    }
+});
+
 
 app.listen('2000', () => {
     const timestamp = new Date().toLocaleString('sv-SE', {

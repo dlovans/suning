@@ -27,6 +27,7 @@ searchBar.addEventListener('input', function () {
             }
             axios.post('/geocoder', data)
                 .then(response => {
+                    console.log(response.data)
                     function updateResults(results) {
                         let listItem;
                         if (results.length !== 0) {
@@ -37,7 +38,7 @@ searchBar.addEventListener('input', function () {
                                 listItem = document.createElement('li')
                                 searchResults.appendChild(listItem)
                                 listItem.textContent = `${results[i].LocalizedName}, ${results[i].AdministrativeArea.LocalizedName}, ${results[i].Country.ID}`
-                                listItem.setAttribute('data-locationKey', `${results[i.Key]}`)
+                                listItem.setAttribute('data-locationKey', `${results[i].Key}`)
                             }
                             searchResults.classList.add('search-results-input')
                         } else {
