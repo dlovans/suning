@@ -211,10 +211,14 @@
 
     .ad-one {
         margin: 10px 0;
+        width: 95%;
+        height: auto;
     }
 
     .ad-two {
         margin-top: 10px 0;
+        width: 95%;
+        height: auto;
     }
 
     main {
@@ -349,6 +353,7 @@
 
     .temperature {
         width: 95%;
+        height: 50px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -375,10 +380,13 @@
         align-items: center;
     }
 
+
+
     .sun1-image {
         height: 35px;
         width: 35px;
         filter: brightness(0) invert(1);
+
     }
 
     .temp-number {
@@ -780,10 +788,14 @@
 
     .ad-one {
         margin: 10px 0;
+        width: 95%;
+        height: auto;
     }
 
     .ad-two {
         margin-top: 10px 0;
+        width: 95%;
+        height: auto;
     }
 
     main {

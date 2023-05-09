@@ -15,7 +15,17 @@
 const searchBar = document.querySelector('#searchBar')
 const searchResults = document.querySelector('.search-results')
 
+const cityName = document.querySelector('.city-name')
+const uvi = document.querySelector('.uvi')
+const vitaminStatus = document.querySelector('.vitamin-status')
+const tempNumber = document.querySelector('.temp-number')
+const precPercent = document.querySelector('.prec-percent')
+const windSpeed = document.querySelector('.wind-speed')
+const humPercent = document.querySelector('.humidity-percent')
+
 let consecutiveTimeout;
+
+let allListItems;
 
 searchBar.addEventListener('input', function () {
     clearTimeout(consecutiveTimeout)
@@ -27,7 +37,6 @@ searchBar.addEventListener('input', function () {
             }
             axios.post('/geocoder', data)
                 .then(response => {
-                    console.log(response.data)
                     function updateResults(results) {
                         let listItem;
                         if (results.length !== 0) {
@@ -36,9 +45,10 @@ searchBar.addEventListener('input', function () {
                             }
                             for (let i = 0; i < results.length; i++) {
                                 listItem = document.createElement('li')
+                                listItem.setAttribute('class', 'listItem')
                                 searchResults.appendChild(listItem)
                                 listItem.textContent = `${results[i].LocalizedName}, ${results[i].AdministrativeArea.LocalizedName}, ${results[i].Country.ID}`
-                                listItem.setAttribute('data-locationKey', `${results[i].Key}`)
+                                listItem.setAttribute('data-locationkey', `${results[i].Key}`)
                             }
                             searchResults.classList.add('search-results-input')
                         } else {
@@ -49,6 +59,37 @@ searchBar.addEventListener('input', function () {
                         }
                     }
                     updateResults(response.data)
+
+
+                    allListItems = document.querySelectorAll('.listItem')
+                    for (let location of Array.from(allListItems)) {
+                        location.addEventListener('click', function () {
+                            let keyData = location.getAttribute('data-locationkey')
+                            let locationKeyData = {
+                                key: `${keyData}`
+                            }
+                            console.log(locationKeyData)
+                            async function callLocation() {
+                                await axios.post('/locationAPI', locationKeyData)
+                                    .then(response => {
+                                        if (response.data) {
+                                            cityName.textContent = location.textContent
+                                            uvi.textContent = response.data[0].UVIndex
+
+
+                                        }
+                                    })
+                                    .catch((err) => {
+                                        console.log(err)
+                                    })
+                            }
+                            callLocation()
+                        })
+                    }
+
+
+
+
                 })
                 .catch(err => {
                     console.log(err)
@@ -61,7 +102,6 @@ searchBar.addEventListener('input', function () {
             }, 500)
         }
     }, 500)
-
 })
 
 
@@ -121,3 +161,5 @@ locationBtn.addEventListener('click', function (event) {
     }, 300)
 
 })
+
+
