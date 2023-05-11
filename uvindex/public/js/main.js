@@ -18,6 +18,7 @@ const searchResults = document.querySelector('.search-results')
 const cityName = document.querySelector('.city-name')
 const uvi = document.querySelector('.uvi')
 const vitaminStatus = document.querySelector('.vitamin-status')
+const actualDay = document.querySelector('.day')
 const tempNumber = document.querySelector('.temp-number')
 const precPercent = document.querySelector('.prec-percent')
 const windSpeed = document.querySelector('.wind-speed')
@@ -73,10 +74,22 @@ searchBar.addEventListener('input', function () {
                                 await axios.post('/locationAPI', locationKeyData)
                                     .then(response => {
                                         if (response.data) {
+                                            console.log(response.data)
+                                            searchResults.classList.remove('search-results-input')
+                                            setTimeout(function () {
+                                                Array.from(searchResults.children).forEach(child => child.remove())
+                                            }, 400)
+                                            searchBar.value = ""
                                             cityName.textContent = location.textContent
                                             uvi.textContent = response.data[0].UVIndex
-
-
+                                            const newDate = new Date()
+                                            const numberedDay = newDate.getDay()
+                                            const arrayOfDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+                                            actualDay.textContent = arrayOfDays[numberedDay]
+                                            let weatherNumber = Math.round(response.data[0].Temperature.Metric.Value)
+                                            tempNumber.textContent = `${weatherNumber}C`
+                                            let rainfall = response.data[0].Precip1hr.Metric.Value
+                                            precPercent.textContent = `${rainfall}mm`
                                         }
                                     })
                                     .catch((err) => {
