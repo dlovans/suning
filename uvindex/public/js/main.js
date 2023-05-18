@@ -1,19 +1,9 @@
-// window.addEventListener('load', function () {
-//     navigator.geolocation.getCurrentPosition(onSuccess, onError)
-// })
-
-// function onSuccess(position) {
-//     console.log(position)
-// }
-
-// function onError(error) {
-//     console.log(error)
-// }
-
-
 // Search results list effect
 const searchBar = document.querySelector('#searchBar')
 const searchResults = document.querySelector('.search-results')
+
+const navMenu = document.querySelector('.menu')
+const dataContainer = document.querySelector('.data-container')
 
 const cityName = document.querySelector('.city-name')
 const uvi = document.querySelector('.uvi')
@@ -23,6 +13,55 @@ const tempNumber = document.querySelector('.temp-number')
 const precPercent = document.querySelector('.prec-percent')
 const windSpeed = document.querySelector('.wind-speed')
 const humPercent = document.querySelector('.humidity-percent')
+
+
+// Function for skin color and timing based on UVI level
+const veryFairSkin = document.querySelector('.very-fair-color')
+const fairSkin = document.querySelector('.fair-color')
+const mediumSkin = document.querySelector('.medium-color')
+const oliveSkin = document.querySelector('.olive-color')
+const darkSkin = document.querySelector('.dark-color')
+const veryDarkSkin = document.querySelector('.very-dark-color')
+
+const timingUvi = function (uvindex) {
+    if (uvindex < 3) {
+        veryFairSkin.textContent = '30'
+        fairSkin.textContent = '45'
+        mediumSkin.textContent = '60'
+        oliveSkin.textContent = '90'
+        darkSkin.textContent = '120'
+        veryDarkSkin.textContent = '150'
+    } else if (uvindex >= 3 && uvindex < 6) {
+        veryFairSkin.textContent = '15'
+        fairSkin.textContent = '20'
+        mediumSkin.textContent = '30'
+        oliveSkin.textContent = '40'
+        darkSkin.textContent = '60'
+        veryDarkSkin.textContent = '75'
+    } else if (uvindex >= 6 && uvindex < 8) {
+        veryFairSkin.textContent = '10'
+        fairSkin.textContent = '15'
+        mediumSkin.textContent = '20'
+        oliveSkin.textContent = '30'
+        darkSkin.textContent = '45'
+        veryDarkSkin.textContent = '60'
+    } else if (uvindex >= 8 && uvindex < 11) {
+        veryFairSkin.textContent = '5'
+        fairSkin.textContent = '10'
+        mediumSkin.textContent = '15'
+        oliveSkin.textContent = '20'
+        darkSkin.textContent = '30'
+        veryDarkSkin.textContent = '40'
+    } else {
+        veryFairSkin.textContent = '0'
+        fairSkin.textContent = '0'
+        mediumSkin.textContent = '0'
+        oliveSkin.textContent = '0'
+        darkSkin.textContent = '0'
+        veryDarkSkin.textContent = '0'
+    }
+}
+
 
 let consecutiveTimeout;
 
@@ -75,6 +114,16 @@ searchBar.addEventListener('input', function () {
                                     .then(response => {
                                         if (response.data) {
                                             console.log(response.data)
+
+                                            timingUvi(response.data[0].UVIndex)
+
+                                            const dataParameter = dataContainer.getBoundingClientRect().top - navMenu.getBoundingClientRect().height - 10
+                                            window.scrollTo({
+                                                top: dataParameter,
+                                                left: 0,
+                                                behavior: 'smooth'
+                                            })
+
                                             searchResults.classList.remove('search-results-input')
                                             setTimeout(function () {
                                                 Array.from(searchResults.children).forEach(child => child.remove())
@@ -84,12 +133,16 @@ searchBar.addEventListener('input', function () {
                                             uvi.textContent = response.data[0].UVIndex
                                             const newDate = new Date()
                                             const numberedDay = newDate.getDay()
-                                            const arrayOfDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+                                            const arrayOfDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
                                             actualDay.textContent = arrayOfDays[numberedDay]
                                             let weatherNumber = Math.round(response.data[0].Temperature.Metric.Value)
                                             tempNumber.textContent = `${weatherNumber}C`
                                             let rainfall = response.data[0].Precip1hr.Metric.Value
                                             precPercent.textContent = `${rainfall}mm`
+                                            let windValue = Math.round(response.data[0].Wind.Speed.Metric.Value)
+                                            windSpeed.textContent = `${windValue} km/h`
+                                            let airHumidity = response.data[0].RelativeHumidity
+                                            humPercent.textContent = `${airHumidity}%`
                                         }
                                     })
                                     .catch((err) => {
