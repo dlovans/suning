@@ -234,12 +234,13 @@
         display: grid;
         background-color: #252c34;
         grid-template-columns: repeat(6, 1fr);
-        grid-template-rows: 50px 250px 50px 40px 50px 50px;
+        grid-template-rows: 50px 250px 50px 50px 40px 50px 50px;
         border-radius: 6px;
         box-shadow: 0 0 10px #00000067;
         grid-template-areas:
             "city city city city city city"
             "data data data data data data"
+            "ws ws ws ws ws ws"
             "btn btn btn btn btn btn"
             "stc stc stc stc stc stc"
             "vfair vfair fair fair med med"
@@ -508,6 +509,78 @@
             height: 400px;
             opacity: 0;
         }
+    }
+
+    .weather-settings-container {
+        grid-area: ws;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .weather-settings {
+        background-color: #2e3642;
+        width: 95%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 10px;
+        height: 40px;
+    }
+
+
+
+    .setting-slider {
+        width: 100px;
+        height: 20px;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+        border: none;
+        display: flex;
+        align-items: center;
+    }
+
+    .ball {
+        border-radius: 50%;
+        border: none;
+        height: 18px;
+        width: 18px;
+        background-color: #76FF03;
+        margin-right: 80px;
+        margin-left: 2px;
+        transition: all .3s linear;
+    }
+
+    .imperial-ball {
+        margin-left: 80px;
+        margin-right: 2px;
+    }
+
+    .metric {
+        width: auto;
+        text-align: center;
+        color: #FFFFFF;
+        padding: 0 8px;
+        transition: color .3s linear;
+    }
+
+    .metric-color {
+        color: #76FF03;
+    }
+
+    .imperial {
+        width: auto;
+        text-align: center;
+        color: #FFFFFF;
+        padding: 0 8px;
+        transition: color .3s linear;
+    }
+
+    .imperial-color {
+        color: #76FF03;
     }
 
     .sunbathing-container {
@@ -805,12 +878,13 @@
         display: grid;
         background-color: #252c34;
         grid-template-columns: repeat(6, 1fr);
-        grid-template-rows: 50px 250px 50px 40px 50px 50px;
+        grid-template-rows: 50px 250px 50px 50px 40px 50px 50px;
         border-radius: 6px;
         box-shadow: 0 0 10px #00000067;
         grid-template-areas:
             "city city city city city city"
             "data data data data data data"
+            "ws ws ws ws ws ws"
             "btn btn btn btn btn btn"
             "stc stc stc stc stc stc"
             "vfair vfair fair fair med med"

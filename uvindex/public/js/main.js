@@ -62,6 +62,33 @@ const timingUvi = function (uvindex) {
     }
 }
 
+// Slider function for selecting metric or imperial
+const slider = document.querySelector('.setting-slider')
+const ball = document.querySelector('.ball')
+const metric = document.querySelector('.metric')
+const imperial = document.querySelector('.imperial')
+
+slider.addEventListener('click', function () {
+    axios.get('/slider-setting')
+        .then((response) => {
+            console.log(response.data)
+            if (response.data === "Metric") {
+                ball.classList.toggle('imperial-ball')
+                metric.classList.add('metric-color')
+                imperial.classList.remove('imperial-color')
+            } else {
+                ball.classList.toggle('imperial-ball')
+                imperial.classList.add('imperial-color')
+                metric.classList.remove('metric-color')
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+})
+
+
+
 
 let consecutiveTimeout;
 
@@ -110,7 +137,7 @@ searchBar.addEventListener('input', function () {
                             }
                             console.log(locationKeyData)
                             async function callLocation() {
-                                await axios.post('/locationAPI', locationKeyData)
+                                await axios.post('/weatherAPI', locationKeyData)
                                     .then(response => {
                                         if (response.data) {
                                             console.log(response.data)
@@ -140,7 +167,7 @@ searchBar.addEventListener('input', function () {
                                             let rainfall = response.data[0].Precip1hr.Metric.Value
                                             precPercent.textContent = `${rainfall}mm`
                                             let windValue = Math.round(response.data[0].Wind.Speed.Metric.Value)
-                                            windSpeed.textContent = `${windValue} km/h`
+                                            windSpeed.textContent = `${windValue}km/h`
                                             let airHumidity = response.data[0].RelativeHumidity
                                             humPercent.textContent = `${airHumidity}%`
                                         }

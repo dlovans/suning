@@ -25,7 +25,7 @@ app.use(session({
 
 
 app.get('/', (req, res) => {
-    res.render('main/main')
+    res.render('main/main', {onLoadSlideValue: req.session.weatherSetting})
 })
 
 
@@ -55,7 +55,7 @@ app.post('/geocoder', async (req, res) => {
     }
 });
 
-app.post('/locationAPI', async (req, res) => {
+app.post('/weatherAPI', async (req, res) => {
     try {
         console.log(req.body.key)
         const conditions = await axios.get(`http://dataservice.accuweather.com/currentconditions/v1/${req.body.key}?apikey=${process.env.accuWeatherAPI_KEY}&details=true`)
@@ -68,6 +68,19 @@ app.post('/locationAPI', async (req, res) => {
     catch (err) {
         console.log(err)
     }
+})
+
+app.get('/slider-setting', (req, res) => {
+    if (!req.session.weatherSetting) {
+        req.session.weatherSetting = "Imperial"
+    } else if (req.session.weatherSetting === "Metric") {
+        req.session.weatherSetting = "Imperial"
+    } else {
+        req.session.weatherSetting = "Metric"
+    }
+    console.log(req.session.weatherSetting)
+    let sliderValue = req.session.weatherSetting
+    res.json(sliderValue)
 })
 
 
