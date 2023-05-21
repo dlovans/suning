@@ -23,8 +23,16 @@ const oliveSkin = document.querySelector('.olive-color')
 const darkSkin = document.querySelector('.dark-color')
 const veryDarkSkin = document.querySelector('.very-dark-color')
 
+const vfUnit = document.querySelector('.vf-unit')
+const fUnit = document.querySelector('.f-unit')
+const mUnit = document.querySelector('.m-unit')
+const lbUnit = document.querySelector('.lb-unit')
+const dbUnit = document.querySelector('.db-unit')
+const bUnit = document.querySelector('.b-unit')
+
 const timingUvi = function (uvindex) {
     if (uvindex < 3) {
+        vitaminStatus.textContent = "Low"
         veryFairSkin.textContent = '30'
         fairSkin.textContent = '45'
         mediumSkin.textContent = '60'
@@ -32,6 +40,7 @@ const timingUvi = function (uvindex) {
         darkSkin.textContent = '120'
         veryDarkSkin.textContent = '150'
     } else if (uvindex >= 3 && uvindex < 6) {
+        vitaminStatus.textContent = "Adequate"
         veryFairSkin.textContent = '15'
         fairSkin.textContent = '20'
         mediumSkin.textContent = '30'
@@ -39,6 +48,7 @@ const timingUvi = function (uvindex) {
         darkSkin.textContent = '60'
         veryDarkSkin.textContent = '75'
     } else if (uvindex >= 6 && uvindex < 8) {
+        vitaminStatus.textContent = "High"
         veryFairSkin.textContent = '10'
         fairSkin.textContent = '15'
         mediumSkin.textContent = '20'
@@ -46,6 +56,7 @@ const timingUvi = function (uvindex) {
         darkSkin.textContent = '45'
         veryDarkSkin.textContent = '60'
     } else if (uvindex >= 8 && uvindex < 11) {
+        vitaminStatus.textContent = "Very High"
         veryFairSkin.textContent = '5'
         fairSkin.textContent = '10'
         mediumSkin.textContent = '15'
@@ -53,14 +64,53 @@ const timingUvi = function (uvindex) {
         darkSkin.textContent = '30'
         veryDarkSkin.textContent = '40'
     } else {
-        veryFairSkin.textContent = '0'
-        fairSkin.textContent = '0'
-        mediumSkin.textContent = '0'
-        oliveSkin.textContent = '0'
-        darkSkin.textContent = '0'
-        veryDarkSkin.textContent = '0'
+        veryFairSkin.textContent = 'Avoid'
+        vfUnit.textContent = 'Exposure'
+        fairSkin.textContent = 'Avoid'
+        fUnit.textContent = 'Exposure'
+        mediumSkin.textContent = 'Avoid'
+        mUnit.textContent = 'Exposure'
+        oliveSkin.textContent = 'Avoid'
+        lbUnit.textContent = 'Exposure'
+        darkSkin.textContent = 'Avoid'
+        dbUnit.textContent = 'Exposure'
+        veryDarkSkin.textContent = 'Avoid'
+        bUnit.textContent = 'Exposure'
     }
 }
+
+window.addEventListener('load', async function () {
+    axios.get('/loadEvent')
+        .then((response) => {
+            timingUvi(response.data.currentConditionsUNI.uvi)
+            cityName.textContent = response.data.locationName
+            uvi.textContent = response.data.currentConditionsUNI.uvi
+            humPercent.textContent = `${response.data.currentConditionsUNI.humidity}%`
+            const newDate = new Date()
+            const numberedDay = newDate.getDay()
+            const arrayOfDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+            actualDay.textContent = arrayOfDays[numberedDay]
+            const metricOrImperial = response.data.metricOrImperial
+            if (!metricOrImperial || metricOrImperial === "Metric") {
+                let weatherNumber = Math.round(response.data.currentConditions.Metric.temperature)
+                tempNumber.textContent = `${weatherNumber}°C`
+                let rainfall = response.data.currentConditions.Metric.precipitation
+                precPercent.textContent = `${rainfall}mm`
+                let windValue = Math.round(response.data.currentConditions.Metric.wind)
+                windSpeed.textContent = `${windValue}km/h`
+            } else {
+                let weatherNumber = Math.round(response.data.currentConditions.Imperial.temperature)
+                tempNumber.textContent = `${weatherNumber}°F`
+                let rainfall = response.data.currentConditions.Imperial.precipitation
+                precPercent.textContent = `${rainfall}in`
+                let windValue = Math.round(response.data.currentConditions.Imperial.wind)
+                windSpeed.textContent = `${windValue}mi/h`
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+})
 
 // Slider function for selecting metric or imperial
 const slider = document.querySelector('.setting-slider')
@@ -133,17 +183,14 @@ searchBar.addEventListener('input', function () {
                         location.addEventListener('click', function () {
                             let keyData = location.getAttribute('data-locationkey')
                             let locationKeyData = {
-                                key: `${keyData}`
+                                key: `${keyData}`,
+                                location: `${location.textContent}`
                             }
-                            console.log(locationKeyData)
                             async function callLocation() {
                                 await axios.post('/weatherAPI', locationKeyData)
                                     .then(response => {
                                         if (response.data) {
-                                            console.log(response.data)
-
-                                            timingUvi(response.data[0].UVIndex)
-
+                                            timingUvi(response.data.currentConditionsUNI.uvi)
                                             const dataParameter = dataContainer.getBoundingClientRect().top - navMenu.getBoundingClientRect().height - 10
                                             window.scrollTo({
                                                 top: dataParameter,
@@ -156,20 +203,29 @@ searchBar.addEventListener('input', function () {
                                                 Array.from(searchResults.children).forEach(child => child.remove())
                                             }, 400)
                                             searchBar.value = ""
-                                            cityName.textContent = location.textContent
-                                            uvi.textContent = response.data[0].UVIndex
+                                            cityName.textContent = response.data.locationName
+                                            uvi.textContent = response.data.currentConditionsUNI.uvi
+                                            humPercent.textContent = `${response.data.currentConditionsUNI.humidity}%`
                                             const newDate = new Date()
                                             const numberedDay = newDate.getDay()
                                             const arrayOfDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
                                             actualDay.textContent = arrayOfDays[numberedDay]
-                                            let weatherNumber = Math.round(response.data[0].Temperature.Metric.Value)
-                                            tempNumber.textContent = `${weatherNumber}C`
-                                            let rainfall = response.data[0].Precip1hr.Metric.Value
-                                            precPercent.textContent = `${rainfall}mm`
-                                            let windValue = Math.round(response.data[0].Wind.Speed.Metric.Value)
-                                            windSpeed.textContent = `${windValue}km/h`
-                                            let airHumidity = response.data[0].RelativeHumidity
-                                            humPercent.textContent = `${airHumidity}%`
+                                            const metricOrImperial = response.data.metricOrImperial
+                                            if (!metricOrImperial || metricOrImperial === "Metric") {
+                                                let weatherNumber = Math.round(response.data.currentConditions.Metric.temperature)
+                                                tempNumber.textContent = `${weatherNumber}°C`
+                                                let rainfall = response.data.currentConditions.Metric.precipitation
+                                                precPercent.textContent = `${rainfall}mm`
+                                                let windValue = Math.round(response.data.currentConditions.Metric.wind)
+                                                windSpeed.textContent = `${windValue}km/h`
+                                            } else {
+                                                let weatherNumber = Math.round(response.data.currentConditions.Imperial.temperature)
+                                                tempNumber.textContent = `${weatherNumber}°F`
+                                                let rainfall = response.data.currentConditions.Imperial.precipitation
+                                                precPercent.textContent = `${rainfall}in`
+                                                let windValue = Math.round(response.data.currentConditions.Imperial.wind)
+                                                windSpeed.textContent = `${windValue}mi/h`
+                                            }
                                         }
                                     })
                                     .catch((err) => {
@@ -179,10 +235,6 @@ searchBar.addEventListener('input', function () {
                             callLocation()
                         })
                     }
-
-
-
-
                 })
                 .catch(err => {
                     console.log(err)
@@ -254,5 +306,3 @@ locationBtn.addEventListener('click', function (event) {
     }, 300)
 
 })
-
-

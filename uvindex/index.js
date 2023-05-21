@@ -25,7 +25,7 @@ app.use(session({
 
 
 app.get('/', (req, res) => {
-    res.render('main/main', {onLoadSlideValue: req.session.weatherSetting})
+    res.render('main/main', { onLoadSlideValue: req.session.weatherSetting })
 })
 
 
@@ -48,7 +48,6 @@ app.post('/geocoder', async (req, res) => {
         counter++
         updateCounter(counter)
         res.json(response.data)
-
     }
     catch (err) {
         console.log(err)
@@ -57,16 +56,106 @@ app.post('/geocoder', async (req, res) => {
 
 app.post('/weatherAPI', async (req, res) => {
     try {
-        console.log(req.body.key)
-        const conditions = await axios.get(`http://dataservice.accuweather.com/currentconditions/v1/${req.body.key}?apikey=${process.env.accuWeatherAPI_KEY}&details=true`)
-        let counter = readCounter()
-        counter++
-        updateCounter(counter)
-        console.log(conditions)
-        res.json(conditions.data)
+        if (!req.session.currentConditions || req.session.locationKey !== req.body.key) {
+            const conditions = await axios.get(`http://dataservice.accuweather.com/currentconditions/v1/${req.body.key}?apikey=${process.env.accuWeatherAPI_KEY}&details=true`)
+            let counter = readCounter()
+            counter++
+            updateCounter(counter)
+            req.session.locationKey = req.body.key
+            req.session.location = req.body.location
+            req.session.currentConditionsUNI = {
+                uvi: conditions.data[0].UVIndex,
+                humidity: conditions.data[0].RelativeHumidity
+            }
+            req.session.currentConditions = {
+                Metric: {
+                    temperature: conditions.data[0].Temperature.Metric.Value,
+                    precipitation: conditions.data[0].Precip1hr.Metric.Value,
+                    wind: conditions.data[0].Wind.Speed.Metric.Value,
+
+                },
+                Imperial: {
+                    temperature: conditions.data[0].Temperature.Imperial.Value,
+                    precipitation: conditions.data[0].Precip1hr.Imperial.Value,
+                    wind: conditions.data[0].Wind.Speed.Imperial.Value,
+                }
+            }
+        }
+
+        res.json({
+            locationName: req.session.location,
+            locationKey: req.session.locationKey,
+            currentConditions: req.session.currentConditions,
+            currentConditionsUNI: req.session.currentConditionsUNI,
+            metricOrImperial: req.session.weatherSetting,
+        })
     }
     catch (err) {
         console.log(err)
+    }
+})
+
+app.get('/loadEvent', async (req, res) => {
+    let locationName = req.session.location
+    let locationKey = req.session.locationKey
+    if (locationKey) {
+        const conditions = await axios.get(`http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${process.env.accuWeatherAPI_KEY}&details=true`)
+        let counter = readCounter()
+        counter++
+        updateCounter(counter)
+        req.session.currentConditionsUNI = {
+            uvi: conditions.data[0].UVIndex,
+            humidity: conditions.data[0].RelativeHumidity
+        }
+        req.session.currentConditions = {
+            Metric: {
+                temperature: conditions.data[0].Temperature.Metric.Value,
+                precipitation: conditions.data[0].Precip1hr.Metric.Value,
+                wind: conditions.data[0].Wind.Speed.Metric.Value,
+
+            },
+            Imperial: {
+                temperature: conditions.data[0].Temperature.Imperial.Value,
+                precipitation: conditions.data[0].Precip1hr.Imperial.Value,
+                wind: conditions.data[0].Wind.Speed.Imperial.Value,
+            }
+        }
+        res.json({
+            locationName: req.session.location,
+            locationKey: req.session.locationKey,
+            currentConditions: req.session.currentConditions,
+            currentConditionsUNI: req.session.currentConditionsUNI,
+            metricOrImperial: req.session.weatherSetting,
+        })
+    } else {
+        const conditions = await axios.get(`http://dataservice.accuweather.com/currentconditions/v1/${310227}?apikey=${process.env.accuWeatherAPI_KEY}&details=true`)
+        let counter = readCounter()
+        counter++
+        updateCounter(counter)
+        req.session.currentConditionsUNI = {
+            uvi: conditions.data[0].UVIndex,
+            humidity: conditions.data[0].RelativeHumidity
+        }
+        req.session.currentConditions = {
+            Metric: {
+                temperature: conditions.data[0].Temperature.Metric.Value,
+                precipitation: conditions.data[0].Precip1hr.Metric.Value,
+                wind: conditions.data[0].Wind.Speed.Metric.Value,
+
+            },
+            Imperial: {
+                temperature: conditions.data[0].Temperature.Imperial.Value,
+                precipitation: conditions.data[0].Precip1hr.Imperial.Value,
+                wind: conditions.data[0].Wind.Speed.Imperial.Value,
+            }
+        }
+        res.json({
+            locationName: "Hjulsta, Stockholm, SE",
+            locationKey: req.session.locationKey,
+            currentConditions: req.session.currentConditions,
+            currentConditionsUNI: req.session.currentConditionsUNI,
+            metricOrImperial: req.session.weatherSetting,
+        })
     }
 })
 
