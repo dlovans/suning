@@ -4,7 +4,6 @@ const path = require('path')
 const axios = require('axios')
 const session = require('express-session')
 const fs = require('fs')
-const counterFile = 'counter_request.txt'
 
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config()
@@ -23,30 +22,20 @@ app.use(session({
     saveUninitialized: false
 }))
 
-
 app.get('/', (req, res) => {
+    if (!req.session.requests) {
+        req.session.requests = 0
+    }
     res.render('main/main', { onLoadSlideValue: req.session.weatherSetting })
 })
 
 
-function readCounter() {
-    if (fs.existsSync(counterFile)) {
-        return parseInt(fs.readFileSync(counterFile, 'UTF-8'))
-    } else {
-        return 0
-    }
-}
 
-function updateCounter(counter) {
-    fs.writeFileSync(counterFile, counter.toString())
-}
 
 app.post('/geocoder', async (req, res) => {
     try {
         const response = await axios.get(`http://dataservice.accuweather.com//locations/v1/search?apikey=${process.env.accuWeatherAPI_KEY}&q=${req.body.location}&offset=25`);
-        let counter = readCounter()
-        counter++
-        updateCounter(counter)
+        req.session.requests++
         res.json(response.data)
     }
     catch (err) {
@@ -58,9 +47,8 @@ app.post('/weatherAPI', async (req, res) => {
     try {
         if (!req.session.currentConditions || req.session.locationKey !== req.body.key) {
             const conditions = await axios.get(`http://dataservice.accuweather.com/currentconditions/v1/${req.body.key}?apikey=${process.env.accuWeatherAPI_KEY}&details=true`)
-            let counter = readCounter()
-            counter++
-            updateCounter(counter)
+            req.session.requests++
+            console.log(req.session.requests)
             req.session.locationKey = req.body.key
             req.session.location = req.body.location
             req.session.currentConditionsUNI = {
@@ -95,14 +83,15 @@ app.post('/weatherAPI', async (req, res) => {
     }
 })
 
+
 app.get('/loadEvent', async (req, res) => {
-    let locationName = req.session.location
     let locationKey = req.session.locationKey
+    if (!req.session.timeStamp) {
+        req.session.timeStamp = Date.now() + 60 * 60 * 1000
+    }
     if (locationKey) {
         const conditions = await axios.get(`http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${process.env.accuWeatherAPI_KEY}&details=true`)
-        let counter = readCounter()
-        counter++
-        updateCounter(counter)
+        req.session.requests++
         req.session.currentConditionsUNI = {
             uvi: conditions.data[0].UVIndex,
             humidity: conditions.data[0].RelativeHumidity
@@ -129,9 +118,7 @@ app.get('/loadEvent', async (req, res) => {
         })
     } else {
         const conditions = await axios.get(`http://dataservice.accuweather.com/currentconditions/v1/${310227}?apikey=${process.env.accuWeatherAPI_KEY}&details=true`)
-        let counter = readCounter()
-        counter++
-        updateCounter(counter)
+        req.session.requests++
         req.session.currentConditionsUNI = {
             uvi: conditions.data[0].UVIndex,
             humidity: conditions.data[0].RelativeHumidity
