@@ -159,7 +159,7 @@
         padding: 0 5px 0 5px;
         border-radius: 5px;
         outline: none;
-        margin: 10px 0 1px 0;
+        margin: 5px 0 0 0;
         background-color: #2C2C2C;
         color: #F5F5F5;
     }
@@ -170,7 +170,7 @@
         position: absolute;
         list-style: none;
         width: 100%;
-        margin-top: 60px;
+        margin-top: 50px;
         transform: translateY(-150%);
         transition: all 1s ease;
         z-index: -1;
@@ -179,6 +179,27 @@
 
     .search-results-input {
         transform: translateY(0);
+    }
+
+    .no-results {
+        position: absolute;
+        width: 100%;
+        background-color: #2C2C2C;
+        z-index: -1;
+        transform: translateY(-150%);
+        height: 50px;
+        margin-top: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0 10px;
+        font-size: 20px;
+        color: #B0B0B0;
+        transition: all 0.5s;
+    }
+
+    .no-results-active {
+        transform: translateY(0)
     }
 
     .search-results li {
@@ -207,19 +228,6 @@
         background-color: #76FF03;
     }
 
-
-    .ad-one {
-        margin: 10px;
-        width: auto;
-        height: auto;
-    }
-
-    .ad-two {
-        margin: 10px;
-        width: auto;
-        height: auto;
-    }
-
     main {
         position: relative;
         z-index: -2;
@@ -230,6 +238,7 @@
     }
 
     .data-container {
+        margin: 15px 0 20px 0;
         width: 95%;
         display: grid;
         background-color: #252c34;
@@ -300,14 +309,14 @@
 
     .uvi-box {
         margin-left: 10px;
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 700;
         width: 70%;
     }
 
     .uvi {
         text-align: center;
-        font-size: 20px;
+        font-size: 16px;
         width: 30%;
         justify-content: flex-start;
     }
@@ -326,7 +335,7 @@
     }
 
     .vitamin-box {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 700;
         width: 70%;
         margin-left: 10px;
@@ -363,7 +372,7 @@
     }
 
     .day {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 700;
         width: 30%;
         text-align: left;
@@ -414,6 +423,7 @@
     }
 
     .prec-text {
+        font-size: 16px;
         font-weight: 700;
         margin-left: 10px;
         width: 70%;
@@ -435,6 +445,7 @@
     }
 
     .wind-text {
+        font-size: 16px;
         font-weight: 700;
         margin-left: 10px;
         width: 70%;
@@ -456,6 +467,7 @@
     }
 
     .humidity-text {
+        font-size: 16px;
         width: 70%;
         font-weight: 700;
         margin-left: 10px;
@@ -824,6 +836,27 @@
         transform: translateY(0);
     }
 
+    .no-results {
+        position: absolute;
+        width: 100%;
+        background-color: #2C2C2C;
+        z-index: -1;
+        transform: translateY(-150%);
+        height: 50px;
+        margin-top: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0 10px;
+        font-size: 20px;
+        color: #B0B0B0;
+        transition: all 0.5s;
+    }
+
+    .no-results-active {
+        transform: translateY(0)
+    }
+
     .search-results li {
         position: relative;
         display: flex;
@@ -850,20 +883,6 @@
         background-color: #76FF03;
     }
 
-
-
-    .ad-one {
-        margin: 10px;
-        width: auto;
-        height: auto;
-    }
-
-    .ad-two {
-        margin: 10px;
-        width: auto;
-        height: auto;
-    }
-
     main {
         position: relative;
         z-index: -2;
@@ -874,6 +893,7 @@
     }
 
     .data-container {
+        margin: 15px 0 20px 0;
         width: 95%;
         display: grid;
         background-color: #252c34;
@@ -957,7 +977,6 @@
     }
 
     .vitamin-container {
-        grid-area: vitamin;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -1290,3 +1309,43 @@
     }
 
 }
+
+@media screen and (min-width: 480px) {
+
+    .data-container {
+        margin: 15px 0 20px 0;
+        width: 95%;
+        display: grid;
+        background-color: #252c34;
+        grid-template-columns: repeat(6, 1fr);
+        grid-template-rows: 100px 150px 150px 75px 75px 75px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #00000067;
+        grid-template-areas:
+            "city city city city city city"
+            "data data data ws ws ws"
+            "btn btn btn btn btn btn"
+            "stc stc stc stc stc stc"
+            "vfair vfair fair fair med med"
+            "lbrown lbrown dbrown dbrown pblack pblack"
+        ;
+    }
+
+    .suninfo {
+        width: 50%;
+    }
+
+
+    .weather-container {
+        width: 50%;
+    }
+
+}
+
+/* @media screen and (min-width: 768px) {
+
+} */
+
+/* @media screen and (min-width: 1200px) {
+
+} */

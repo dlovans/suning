@@ -1,6 +1,7 @@
 // Search results list effect
 const searchBar = document.querySelector('#searchBar')
 const searchResults = document.querySelector('.search-results')
+const noResults = document.querySelector('.no-results')
 
 const navMenu = document.querySelector('.menu')
 const dataContainer = document.querySelector('.data-container')
@@ -82,29 +83,33 @@ const timingUvi = function (uvindex) {
 window.addEventListener('load', async function () {
     axios.get('/loadEvent')
         .then((response) => {
-            timingUvi(response.data.currentConditionsUNI.uvi)
-            cityName.textContent = response.data.locationName
-            uvi.textContent = response.data.currentConditionsUNI.uvi
-            humPercent.textContent = `${response.data.currentConditionsUNI.humidity}%`
-            const newDate = new Date()
-            const numberedDay = newDate.getDay()
-            const arrayOfDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-            actualDay.textContent = arrayOfDays[numberedDay]
-            const metricOrImperial = response.data.metricOrImperial
-            if (!metricOrImperial || metricOrImperial === "Metric") {
-                let weatherNumber = Math.round(response.data.currentConditions.Metric.temperature)
-                tempNumber.textContent = `${weatherNumber}°C`
-                let rainfall = response.data.currentConditions.Metric.precipitation
-                precPercent.textContent = `${rainfall}mm`
-                let windValue = Math.round(response.data.currentConditions.Metric.wind)
-                windSpeed.textContent = `${windValue}km/h`
+            if (response.data.currentConditions.uvi) {
+                timingUvi(response.data.currentConditionsUNI.uvi)
+                cityName.textContent = response.data.locationName
+                uvi.textContent = response.data.currentConditionsUNI.uvi
+                humPercent.textContent = `${response.data.currentConditionsUNI.humidity}%`
+                const newDate = new Date()
+                const numberedDay = newDate.getDay()
+                const arrayOfDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+                actualDay.textContent = arrayOfDays[numberedDay]
+                const metricOrImperial = response.data.metricOrImperial
+                if (!metricOrImperial || metricOrImperial === "Metric") {
+                    let weatherNumber = Math.round(response.data.currentConditions.Metric.temperature)
+                    tempNumber.textContent = `${weatherNumber}°C`
+                    let rainfall = response.data.currentConditions.Metric.precipitation
+                    precPercent.textContent = `${rainfall}mm`
+                    let windValue = Math.round(response.data.currentConditions.Metric.wind)
+                    windSpeed.textContent = `${windValue}km/h`
+                } else {
+                    let weatherNumber = Math.round(response.data.currentConditions.Imperial.temperature)
+                    tempNumber.textContent = `${weatherNumber}°F`
+                    let rainfall = response.data.currentConditions.Imperial.precipitation
+                    precPercent.textContent = `${rainfall}in`
+                    let windValue = Math.round(response.data.currentConditions.Imperial.wind)
+                    windSpeed.textContent = `${windValue}mi/h`
+                }
             } else {
-                let weatherNumber = Math.round(response.data.currentConditions.Imperial.temperature)
-                tempNumber.textContent = `${weatherNumber}°F`
-                let rainfall = response.data.currentConditions.Imperial.precipitation
-                precPercent.textContent = `${rainfall}in`
-                let windValue = Math.round(response.data.currentConditions.Imperial.wind)
-                windSpeed.textContent = `${windValue}mi/h`
+                console.log("Maximum API requests. Wait 1 hour!")
             }
         })
         .catch((err) => {
@@ -121,15 +126,27 @@ const imperial = document.querySelector('.imperial')
 slider.addEventListener('click', function () {
     axios.get('/slider-setting')
         .then((response) => {
-            console.log(response.data)
-            if (response.data === "Metric") {
+            if (response.data.sliderValue === "Metric") {
                 ball.classList.toggle('imperial-ball')
                 metric.classList.add('metric-color')
                 imperial.classList.remove('imperial-color')
+                let weatherNumber = Math.round(response.data.currentConditions.Metric.temperature)
+                tempNumber.textContent = `${weatherNumber}°C`
+                let rainfall = response.data.currentConditions.Metric.precipitation
+                precPercent.textContent = `${rainfall}mm`
+                let windValue = Math.round(response.data.currentConditions.Metric.wind)
+                windSpeed.textContent = `${windValue}km/h`
+
             } else {
                 ball.classList.toggle('imperial-ball')
                 imperial.classList.add('imperial-color')
                 metric.classList.remove('metric-color')
+                let weatherNumber = Math.round(response.data.currentConditions.Imperial.temperature)
+                tempNumber.textContent = `${weatherNumber}°F`
+                let rainfall = response.data.currentConditions.Imperial.precipitation
+                precPercent.textContent = `${rainfall}in`
+                let windValue = Math.round(response.data.currentConditions.Imperial.wind)
+                windSpeed.textContent = `${windValue}mi/h`
             }
         })
         .catch((err) => {
@@ -157,6 +174,7 @@ searchBar.addEventListener('input', function () {
                     function updateResults(results) {
                         let listItem;
                         if (results.length !== 0) {
+                            noResults.classList.remove('no-results-active')
                             if (searchResults.children) {
                                 Array.from(searchResults.children).forEach(child => child.remove())
                             }
@@ -173,6 +191,7 @@ searchBar.addEventListener('input', function () {
                             setTimeout(function () {
                                 Array.from(searchResults.children).forEach(child => child.remove())
                             }, 400)
+                            noResults.classList.add('no-results-active')
                         }
                     }
                     updateResults(response.data)
@@ -295,10 +314,9 @@ locationBtn.addEventListener('click', function (event) {
     setTimeout(() => {
         ripple.remove()
     }, 500)
-    let offset = searchBarContainer.getBoundingClientRect().top
     setTimeout(() => {
         window.scrollTo({
-            top: offset,
+            top: 0,
             left: 0,
             behavior: "smooth"
         })
