@@ -1311,35 +1311,39 @@
 }
 
 @media screen and (min-width: 480px) {
-
     .data-container {
         margin: 15px 0 20px 0;
         width: 95%;
         display: grid;
         background-color: #252c34;
         grid-template-columns: repeat(6, 1fr);
-        grid-template-rows: 100px 150px 150px 75px 75px 75px;
+        grid-template-rows: 50px 250px 80px 40px 50px 50px;
         border-radius: 10px;
         box-shadow: 0 0 10px #00000067;
         grid-template-areas:
             "city city city city city city"
-            "data data data ws ws ws"
-            "btn btn btn btn btn btn"
+            "data data data data data data"
+            "ws ws ws ws btn btn"
             "stc stc stc stc stc stc"
             "vfair vfair fair fair med med"
             "lbrown lbrown dbrown dbrown pblack pblack"
         ;
     }
 
-    .suninfo {
-        width: 50%;
+    .weather-settings-container {
+        width: 90%;
+        overflow: hidden;
+        margin-left: 10px;
     }
 
-
-    .weather-container {
-        width: 50%;
+    .ch-loc-container {
+        margin-top: 0;
     }
 
+    .search-active {
+        width: 100%;
+        margin-right: 20px;
+    }
 }
 
 /* @media screen and (min-width: 768px) {
