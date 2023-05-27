@@ -238,7 +238,7 @@
     }
 
     .data-container {
-        margin: 15px 0 20px 0;
+        margin: 15px 0 0 0;
         width: 95%;
         display: grid;
         background-color: #252c34;
@@ -661,6 +661,22 @@
         border-bottom-right-radius: 6px;
     }
 
+    .accu-container {
+        display: flex;
+        flex-direction: row;
+        width: 95%;
+        font-size: 12px;
+        color: #FFFFFF;
+        align-items: center;
+        margin-top: -15px;
+        z-index: -99;
+        margin-left: 10px;
+    }
+
+    .aw-logo {
+        height: 70px;
+        background-size: contain;
+    }
 }
 
 @media screen and (min-width:281px) {
@@ -894,7 +910,7 @@
     }
 
     .data-container {
-        margin: 15px 0 20px 0;
+        margin: 15px 0 0 0;
         width: 95%;
         display: grid;
         background-color: #252c34;
@@ -1310,11 +1326,27 @@
         border-bottom-right-radius: 6px;
     }
 
+    .accu-container {
+        display: flex;
+        flex-direction: row;
+        width: 95%;
+        font-size: 12px;
+        color: #FFFFFF;
+        align-items: center;
+        margin-top: -15px;
+        z-index: -99;
+        margin-left: 10px;
+    }
+
+    .aw-logo {
+        height: 70px;
+    }
+
 }
 
 @media screen and (min-width: 480px) {
     .data-container {
-        margin: 15px 0 20px 0;
+        margin: 15px 0 0 0;
         width: 95%;
         display: grid;
         background-color: #252c34;
@@ -1361,6 +1393,7 @@
     .setting-slider {
         cursor: pointer;
     }
+
 }
 
 @media screen and (min-width: 768px) {
@@ -1393,7 +1426,7 @@
 
     .data-container {
         height: auto;
-        margin: 15px 0 20px 0;
+        margin: 15px 0 0 0;
         width: 95%;
         display: grid;
         background-color: #252c34;
@@ -1500,7 +1533,7 @@
 
     .data-container {
         height: auto;
-        margin: 15px 0 20px 0;
+        margin: 15px 0 0 0;
         width: 70%;
         display: grid;
         background-color: #252c34;
@@ -1533,4 +1566,9 @@
         height: 40px;
         font-size: 20px;
     }
+
+    .accu-container {
+        width: 70%;
+    }
+
 }
