@@ -19,18 +19,21 @@ app.use(express.urlencoded({ extended: true }))
 app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: true,
-        sameSite: 'none',
-        httpOnly: true
-    }
+    saveUninitialized: false
 }))
 
-app.get('/', (req, res) => {
+
+app.use((req, res, next) => {
     if (!req.session.requests) {
         req.session.requests = 0
     }
+    if (!req.session.timeStamp) {
+        req.session.timeStamp = Date.now() + 60 * 60 * 1000
+    }
+    next()
+})
+
+app.get('/', (req, res) => {
     res.render('main/main', { onLoadSlideValue: req.session.weatherSetting })
 })
 
@@ -47,7 +50,9 @@ app.post('/geocoder', async (req, res) => {
                 req.session.requests++
                 res.json(response.data)
             } else {
-                res.send("Maximum number of API requests. Wait 1 hour!")
+                res.json({
+                    status: "failure"
+                })
             }
         } else {
             const response = await axios.get(`http://dataservice.accuweather.com//locations/v1/search?apikey=${process.env.accuWeatherAPI_KEY}&q=${req.body.location}&offset=25`);
@@ -91,8 +96,8 @@ app.post('/weatherAPI', async (req, res) => {
                         }
                     }
                 }
-
                 res.json({
+                    status: "success",
                     locationName: req.session.location,
                     locationKey: req.session.locationKey,
                     currentConditions: req.session.currentConditions,
@@ -100,7 +105,9 @@ app.post('/weatherAPI', async (req, res) => {
                     metricOrImperial: req.session.weatherSetting,
                 })
             } else {
-                res.send("Maximum number of API requests. Wait 1 hour!")
+                res.json({
+                    status: "failure"
+                })
             }
         } else {
             if (!req.session.currentConditions || req.session.locationKey !== req.body.key) {
@@ -129,6 +136,7 @@ app.post('/weatherAPI', async (req, res) => {
             }
 
             res.json({
+                status: "success",
                 locationName: req.session.location,
                 locationKey: req.session.locationKey,
                 currentConditions: req.session.currentConditions,
@@ -149,8 +157,7 @@ app.get('/loadEvent', async (req, res) => {
             if (Date.now() > req.session.timeStamp) {
                 req.session.requests = 0
                 req.session.timeStamp = Date.now() + 60 * 60 * 1000
-                let locationKey = req.session.locationKey
-                if (locationKey) {
+                if (req.session.locationKey) {
                     const conditions = await axios.get(`http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${process.env.accuWeatherAPI_KEY}&details=true`)
                     req.session.requests++
                     req.session.currentConditionsUNI = {
@@ -171,6 +178,7 @@ app.get('/loadEvent', async (req, res) => {
                         }
                     }
                     res.json({
+                        status: "success",
                         locationName: req.session.location,
                         locationKey: req.session.locationKey,
                         currentConditions: req.session.currentConditions,
@@ -210,7 +218,7 @@ app.get('/loadEvent', async (req, res) => {
             }
         } else {
             let locationKey = req.session.locationKey
-            if (locationKey) {
+            if (req.session.locationKey) {
                 const conditions = await axios.get(`http://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=${process.env.accuWeatherAPI_KEY}&details=true`)
                 req.session.requests++
                 req.session.currentConditionsUNI = {
@@ -231,6 +239,7 @@ app.get('/loadEvent', async (req, res) => {
                     }
                 }
                 res.json({
+                    status: "success",
                     locationName: req.session.location,
                     locationKey: req.session.locationKey,
                     currentConditions: req.session.currentConditions,
@@ -238,9 +247,6 @@ app.get('/loadEvent', async (req, res) => {
                     metricOrImperial: req.session.weatherSetting,
                 })
             } else {
-                if (!req.session.timeStamp) {
-                    req.session.timeStamp = Date.now() + 60 * 60 * 1000
-                }
                 const conditions = await axios.get(`http://dataservice.accuweather.com/currentconditions/v1/${310227}?apikey=${process.env.accuWeatherAPI_KEY}&details=true`)
                 req.session.requests++
                 req.session.currentConditionsUNI = {
@@ -261,6 +267,7 @@ app.get('/loadEvent', async (req, res) => {
                     }
                 }
                 res.json({
+                    status: "success",
                     locationName: "Hjulsta, Stockholm, SE",
                     locationKey: req.session.locationKey,
                     currentConditions: req.session.currentConditions,
@@ -288,7 +295,7 @@ app.get('/slider-setting', (req, res) => {
         let sliderValue = req.session.weatherSetting
         res.json({
             sliderValue: sliderValue,
-            currentConditions: req.session.currentConditions,
+            currentConditions: req.session.currentConditions
         })
     } catch (err) {
         console.log(err)

@@ -83,7 +83,8 @@ const timingUvi = function (uvindex) {
 window.addEventListener('load', async function () {
     axios.get('/loadEvent')
         .then((response) => {
-            if (response.data.currentConditions.uvi) {
+            console.log(response.data)
+            if (response.data.status !== "failure") {
                 timingUvi(response.data.currentConditionsUNI.uvi)
                 cityName.textContent = response.data.locationName
                 uvi.textContent = response.data.currentConditionsUNI.uvi
