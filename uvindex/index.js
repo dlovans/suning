@@ -19,7 +19,12 @@ app.use(express.urlencoded({ extended: true }))
 app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: {
+        secure: true,
+        sameSite: 'none',
+        httpOnly: true
+    }
 }))
 
 
@@ -42,7 +47,7 @@ app.get('/', (req, res) => {
 
 app.post('/geocoder', async (req, res) => {
     try {
-        if (req.session.requests >= 1000) {
+        if (req.session.requests >= 20) {
             if (Date.now() > req.session.timeStamp) {
                 req.session.timeStamp = Date.now() + 60 * 60 * 1000
                 req.session.requests = 0
@@ -68,7 +73,7 @@ app.post('/geocoder', async (req, res) => {
 
 app.post('/weatherAPI', async (req, res) => {
     try {
-        if (req.session.requests >= 1000) {
+        if (req.session.requests >= 20) {
             if (Date.now() > req.session.timeStamp) {
                 req.session.requests = 0
                 req.session.timeStamp = Date.now() + 60 * 60 * 1000
@@ -153,7 +158,7 @@ app.post('/weatherAPI', async (req, res) => {
 
 app.get('/loadEvent', async (req, res) => {
     try {
-        if (req.session.requests >= 1000) {
+        if (req.session.requests >= 20) {
             if (Date.now() > req.session.timeStamp) {
                 req.session.requests = 0
                 req.session.timeStamp = Date.now() + 60 * 60 * 1000
