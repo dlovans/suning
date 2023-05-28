@@ -19,16 +19,14 @@ app.use(express.urlencoded({ extended: true }))
 app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: true,
-        sameSite: 'none',
-        httpOnly: true
-    }
+    saveUninitialized: false
 }))
 
 
 app.use((req, res, next) => {
+    if (!req.session.weatherSetting) {
+        req.session.weatherSetting = "Metric"
+    }
     if (!req.session.requests) {
         req.session.requests = 0
     }
@@ -296,7 +294,6 @@ app.get('/slider-setting', (req, res) => {
         } else {
             req.session.weatherSetting = "Metric"
         }
-        console.log(req.session.weatherSetting)
         let sliderValue = req.session.weatherSetting
         res.json({
             sliderValue: sliderValue,
